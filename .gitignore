@@ -1,0 +1,13 @@
+# 파이썬 캐시 및 컴파일된 파일
+__pycache__/
+*.pyc
+*.pyd
+*.egg
+*.egg-info/
+
+# 가상환경
+venv/
+.venv/
+env/
+.venv/
+.openvino_turtleneck_env/
