@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from gaze_model.gaze_model_data import GazeModels
 
 
 class DrawGaze:
@@ -29,7 +30,7 @@ class DrawGaze:
 
         return eye.transpose(2, 0, 1)[np.newaxis, ...].astype(np.float32)
 
-    def draw_gaze(self, gaze_compiled, face_compiled, landmarks_compiled, head_pose_compiled):
+    def draw_gaze_by_webcam(self, gaze_models: GazeModels):
         """
             웹캠 정보를 활용하여 시야 검출.
         """
@@ -47,7 +48,7 @@ class DrawGaze:
             input_blob = cv2.resize(frame, (672, 384))
             input_blob = input_blob.transpose(2, 0, 1)[np.newaxis, ...]
             input_blob = input_blob.astype(np.float32)
-            face_results = face_compiled([input_blob])[face_compiled.outputs[0]]
+            face_results = gaze_models.face([input_blob])[gaze_models.face.outputs[0]]
             faces = face_results[0][0]
             for det in faces:
                 conf = det[2]
@@ -61,7 +62,7 @@ class DrawGaze:
                 if face_img.size == 0:
                     continue
                 lm_input = cv2.resize(face_img, (48, 48)).transpose(2, 0, 1)[np.newaxis, ...].astype(np.float32)
-                lm_results = landmarks_compiled([lm_input])[landmarks_compiled.outputs[0]]
+                lm_results = gaze_models.landmarks([lm_input])[gaze_models.landmarks.outputs[0]]
                 lm = lm_results.reshape(-1, 2)
                 left_eye = (int(lm[0][0]*(xmax-xmin))+xmin, int(lm[0][1]*(ymax-ymin))+ymin)
                 right_eye = (int(lm[1][0]*(xmax-xmin))+xmin, int(lm[1][1]*(ymax-ymin))+ymin)
@@ -70,15 +71,15 @@ class DrawGaze:
 
                 # 3. 머리포즈 추정
                 hp_input = cv2.resize(face_img, (60, 60)).transpose(2, 0, 1)[np.newaxis, ...].astype(np.float32)
-                hp_results = head_pose_compiled([hp_input])
-                head_pose = [hp_results[o][0][0] for o in head_pose_compiled.outputs]
+                hp_results = gaze_models.head_pose([hp_input])
+                head_pose = [hp_results[o][0][0] for o in gaze_models.head_pose.outputs]
 
                 # 4. 시선 추정
                 left_eye_img = self.crop_eye(left_eye, w, h, frame)
                 right_eye_img = self.crop_eye(right_eye, w, h, frame)
                 head_pose_np = np.array(head_pose, dtype=np.float32).reshape(1, 3)
-                gaze_result = gaze_compiled([left_eye_img, right_eye_img, head_pose_np])
-                gaze_vector = gaze_result[gaze_compiled.outputs[0]][0]
+                gaze_result = gaze_models.gaze([left_eye_img, right_eye_img, head_pose_np])
+                gaze_vector = gaze_result[gaze_models.gaze.outputs[0]][0]
 
                 # 5. 시선 벡터 시각화
                 eye_center = ((left_eye[0]+right_eye[0])//2, (left_eye[1]+right_eye[1])//2)

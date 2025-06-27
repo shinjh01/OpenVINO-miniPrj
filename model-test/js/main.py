@@ -1,17 +1,12 @@
-from graze_model.model_compile import ModelCompile
-from graze_model.model_download import ModelDownload
-from ui.draw_gaze import DrawGaze
+from gaze_runner import GazeRunner
 
 
 def main():
-    md = ModelDownload()
-    md.run()
-    mc = ModelCompile()
-    mc.check_models()
-    (gaze_compiled, face_compiled, landmarks_compiled, head_pose_compiled) = mc.load_models()
-
-    dg = DrawGaze()
-    dg.draw_gaze(gaze_compiled, face_compiled, landmarks_compiled, head_pose_compiled)
+    GazeRunner()\
+        .download_model()\
+        .check_model()\
+        .load_models()\
+        .run_ui_by_webcam()
 
 
 if __name__ == "__main__":

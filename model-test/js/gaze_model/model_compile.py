@@ -1,5 +1,6 @@
 from pathlib import Path
 import openvino as ov
+from gaze_model.gaze_model_data import GazeModels
 from constants import (
     GAZE_MODEL_XML,
     FACE_DETECTION_MODEL_XML,
@@ -39,7 +40,7 @@ class ModelCompile:
             else:
                 print(f"✗ {name}: {path} (파일이 없습니다)")
 
-    def load_models(self):
+    def load_models(self) -> GazeModels:
         """
         모델 파일들을 로드합니다.
         """
@@ -55,14 +56,16 @@ class ModelCompile:
             landmarks_model = core.read_model(model=self.landmarks_path)
             head_pose_model = core.read_model(model=self.head_pose_path)
 
+            gaze_models = GazeModels()
+
             # 모델 컴파일 (추론 준비)
-            gaze_compiled = core.compile_model(model=gaze_model, device_name=DEVICE_CPU)
+            gaze_models.gaze = core.compile_model(model=gaze_model, device_name=DEVICE_CPU)
 
-            face_compiled = core.compile_model(model=face_model, device_name=DEVICE_CPU)
+            gaze_models.face = core.compile_model(model=face_model, device_name=DEVICE_CPU)
 
-            landmarks_compiled = core.compile_model(model=landmarks_model, device_name=DEVICE_CPU)
+            gaze_models.landmarks = core.compile_model(model=landmarks_model, device_name=DEVICE_CPU)
 
-            head_pose_compiled = core.compile_model(model=head_pose_model, device_name=DEVICE_CPU)
+            gaze_models.head_pose = core.compile_model(model=head_pose_model, device_name=DEVICE_CPU)
 
             print("✓ 모든 모델이 성공적으로 로드되었습니다!")
 
@@ -79,4 +82,4 @@ class ModelCompile:
             print(f"모델 로드 중 오류 발생: {e}")
             print("모델 파일들이 올바르게 다운로드되었는지 확인해주세요.")
 
-        return (gaze_compiled, face_compiled, landmarks_compiled, head_pose_compiled)
+        return gaze_models

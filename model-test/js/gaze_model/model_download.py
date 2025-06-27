@@ -15,7 +15,7 @@ class ModelDownload:
     모델 다운로드
     """
 
-    def run_omz_download(self, model_name, output_dir=MODEL_DIR):
+    def run_omz_download(self, model_name: str, output_dir: str = MODEL_DIR):
         """
         omz_downloader를 사용해 OpenVINO 모델을 다운로드합니다.
 
