@@ -15,7 +15,7 @@ class DrawGaze:
         dx, dy = int(gaze_vector[0]*scale), int(-gaze_vector[1]*scale)
         cv2.arrowedLine(frame, (x, y), (x+dx, y+dy), color, 2, tipLength=0.3)
 
-    def crop_eye(center, w, h, frame, eye_size=60):
+    def crop_eye(self, center, w, h, frame, eye_size=60):
         """
             눈 크롭
         """
@@ -29,7 +29,7 @@ class DrawGaze:
 
         return eye.transpose(2, 0, 1)[np.newaxis, ...].astype(np.float32)
 
-    def draw_gaze(self, face_compiled, landmarks_compiled, head_pose_compiled, gaze_compiled):
+    def draw_gaze(self, gaze_compiled, face_compiled, landmarks_compiled, head_pose_compiled):
         """
             웹캠 정보를 활용하여 시야 검출.
         """
@@ -74,8 +74,8 @@ class DrawGaze:
                 head_pose = [hp_results[o][0][0] for o in head_pose_compiled.outputs]
 
                 # 4. 시선 추정
-                left_eye_img = self.crop_eye(left_eye, w, h)
-                right_eye_img = self.crop_eye(right_eye, w, h)
+                left_eye_img = self.crop_eye(left_eye, w, h, frame)
+                right_eye_img = self.crop_eye(right_eye, w, h, frame)
                 head_pose_np = np.array(head_pose, dtype=np.float32).reshape(1, 3)
                 gaze_result = gaze_compiled([left_eye_img, right_eye_img, head_pose_np])
                 gaze_vector = gaze_result[gaze_compiled.outputs[0]][0]

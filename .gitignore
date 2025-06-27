@@ -12,3 +12,4 @@ env/
 .venv/
 .openvino_turtleneck_env/
 model/
+models/

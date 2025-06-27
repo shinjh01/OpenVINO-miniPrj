@@ -1,6 +1,6 @@
 # 모델 저장 경로
-MODEL_DIR = "./models"
-MODEL_INTEL_DIR = "./models/intel"
+MODEL_DIR = "./model-test/js/models"
+MODEL_INTEL_DIR = "./model-test/js/models/intel"
 
 # 시선 추정 모델 다운로드
 GAZE_MODEL = "gaze-estimation-adas-0002"
