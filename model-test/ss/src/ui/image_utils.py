@@ -6,8 +6,6 @@ class ImageUtils:
     """
         Image 유틸.
     """
-    def __init__(self):
-        pass
 
     def pil_image_to_data_uri(self, img, format="PNG"):
         """
