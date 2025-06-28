@@ -6,6 +6,7 @@ MODEL_SUB_FOLDER_VAE = "vae"
 MODEL_SUB_FOLDER_TEXT_ENCODER = "text_encoder"
 MODEL_SUB_FOLDER_SCHEDULER = "scheduler"
 MODEL_SUB_FOLDER_TOKENIZER = "tokenizer"
+MODEL_XML_PATH = "./model-test/ss/model/pix2pix-turbo.xml"
 
 MODEL_VARIANT = "fp16"
 

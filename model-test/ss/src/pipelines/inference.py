@@ -9,7 +9,7 @@ from PIL import Image
 from pathlib import Path
 from pipelines.pix2pix_turbo import Pix2PixTurbo
 from ui.image_utils import ImageUtils
-from constants import (MODEL_NAME, MODEL_SUB_FOLDER_TOKENIZER, PRE_TRAIN_SKETCH)
+from constants import (MODEL_NAME, MODEL_SUB_FOLDER_TOKENIZER, PRE_TRAIN_SKETCH, MODEL_XML_PATH)
 
 
 class Inference:
@@ -32,7 +32,7 @@ class Inference:
         self.compiled_model = self.compile_model()
         self.image_utils = ImageUtils()
 
-    def compile_model(self, ov_model_path=Path("model/pix2pix-turbo.xml"), device="CPU"):
+    def compile_model(self, ov_model_path=Path(MODEL_XML_PATH), device="CPU"):
         """
         1. **모델 변환(컴파일)**
         - `ov_model_path`(예: pix2pix-turbo.xml) 파일이 없으면,
