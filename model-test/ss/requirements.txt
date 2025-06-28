@@ -9,3 +9,5 @@ tqdm
 pillow
 opencv-python
 gradio==3.43.1
+pytest
+pytest-cov

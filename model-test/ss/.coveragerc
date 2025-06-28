@@ -1,0 +1,6 @@
+# .coveragerc
+# pytest-cov 및 coverage.py에서 커버리지 측정 시 설정을 지정하는 파일입니다.
+# 여기서는 모든 __init__.py 파일을 커버리지 리포트에서 제외(omit)합니다.
+[run]
+omit =
+    */__init__.py
