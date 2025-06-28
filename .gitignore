@@ -13,3 +13,5 @@ env/
 .openvino_turtleneck_env/
 model/
 models/
+/temp
+checkpoints/
