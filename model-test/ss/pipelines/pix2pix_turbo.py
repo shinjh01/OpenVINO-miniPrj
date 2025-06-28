@@ -43,23 +43,22 @@ class Pix2PixTurbo(torch.nn.Module):
             subfolder=MODEL_SUB_FOLDER_TEXT_ENCODER,
             variant=MODEL_VARIANT
         ).cpu()
-        self.vae_autoencoder = VaeAutoEncoder()
         self.sched = CustomDDPMScheduler().make_1step_sched()
         
         vae = AutoencoderKL.from_pretrained(MODEL_NAME, subfolder=MODEL_SUB_FOLDER_VAE, variant=MODEL_VARIANT)
-        vae.encoder.forward = types.MethodType(self.vae_autoencoder._vae_encoder_fwd, vae.encoder)
-        vae.decoder.forward = types.MethodType(self.vae_autoencoder._vae_decoder_fwd, vae.decoder)
-        vae.encode = types.MethodType(self.vae_autoencoder.vae_encode, vae)
-        vae.decode = types.MethodType(self.vae_autoencoder.vae_decode, vae)
-        vae._decode = types.MethodType(self.vae_autoencoder.vae__decode, vae)
-        
+        vae.encoder.forward = types.MethodType(VaeAutoEncoder.vae_encoder_fwd, vae.encoder)
+        vae.decoder.forward = types.MethodType(VaeAutoEncoder.vae_decoder_fwd, vae.decoder)
+        vae.encode = types.MethodType(VaeAutoEncoder.vae_encode, vae)
+        vae.decode = types.MethodType(VaeAutoEncoder.vae_decode, vae)
+        vae._decode = types.MethodType(VaeAutoEncoder.vae__decode, vae)
+
         # add the skip connection convs
         vae.decoder.skip_conv_1 = torch.nn.Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False).cpu()
         vae.decoder.skip_conv_2 = torch.nn.Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False).cpu()
         vae.decoder.skip_conv_3 = torch.nn.Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False).cpu()
         vae.decoder.skip_conv_4 = torch.nn.Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False).cpu()
         vae.decoder.ignore_skip = False
-        
+
         unet = UNet2DConditionModel.from_pretrained(MODEL_NAME, subfolder=MODEL_SUB_FOLDER_UNET, variant=MODEL_VARIANT)
         ckpt_folder = Path(ckpt_folder)
 

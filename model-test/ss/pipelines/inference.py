@@ -9,7 +9,7 @@ from PIL import Image
 from pathlib import Path
 from pipelines.pix2pix_turbo import Pix2PixTurbo
 from ui.image_utils import ImageUtils
-from constants import (MODEL_NAME, MODEL_SUB_FOLDER_TOKENIZER)
+from constants import (MODEL_NAME, MODEL_SUB_FOLDER_TOKENIZER, PRE_TRAIN_SKETCH)
 
 
 class Inference:
@@ -52,7 +52,7 @@ class Inference:
         pt_model = None
 
         if not ov_model_path.exists():
-            pt_model = Pix2PixTurbo("sketch_to_image_stochastic")
+            pt_model = Pix2PixTurbo(PRE_TRAIN_SKETCH)
             pt_model.set_r(0.4)
             pt_model.eval()
 

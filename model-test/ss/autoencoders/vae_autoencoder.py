@@ -4,7 +4,8 @@ from diffusers.models.autoencoders.vae import DiagonalGaussianDistribution
 
 class VaeAutoEncoder:
 
-    def _vae_encoder_fwd(self, sample):
+    @staticmethod
+    def vae_encoder_fwd(self, sample):
         """
         역할:
             VAE(Variational AutoEncoder) 인코더의 forward 연산을 커스텀하게 정의합니다.
@@ -27,7 +28,8 @@ class VaeAutoEncoder:
         current_down_blocks = l_blocks
         return sample, current_down_blocks
 
-    def _vae_decoder_fwd(self, sample, incoming_skip_acts, latent_embeds=None):
+    @staticmethod
+    def vae_decoder_fwd(self, sample, incoming_skip_acts, latent_embeds=None):
         """
         역할:
             VAE 디코더의 forward 연산을 커스텀하게 정의합니다.
@@ -61,7 +63,8 @@ class VaeAutoEncoder:
         sample = self.conv_out(sample)
         return sample
 
-    def vae_encode(self, x: torch.FloatTensor, *args, **kwargs):
+    @staticmethod
+    def vae_encode(self, x: torch.FloatTensor):
         """
         역할:
             이미지를 latent(잠재공간) 표현으로 인코딩합니다.
@@ -84,6 +87,7 @@ class VaeAutoEncoder:
 
         return (posterior, down_blocks)
 
+    @staticmethod
     def vae_decode(self, z: torch.FloatTensor, skip_acts):
         """
         역할:
@@ -96,6 +100,7 @@ class VaeAutoEncoder:
         decoded = self._decode(z, skip_acts)[0]
         return (decoded,)
 
+    @staticmethod
     def vae__decode(self, z: torch.FloatTensor, skip_acts):
         """
         역할:
