@@ -84,10 +84,10 @@ OpenVINO를 활용한 스마트 자세 교정 시스템으로, 컴퓨터 작업 
 
 ```bash
 # 1. 레포지토리 클론
-git clone https://github.com/your-repo/OpenVINO-turtleNeck.git
+git clone https://github.com/your-repo/OpenVINO-miniPrj.git
 
 # 2. 디렉토리 이동
-cd OpenVINO-turtleNeck
+cd OpenVINO-miniPrj
 
 # 3. 의존성 설치 및 실행 (각 팀원별 디렉토리에서)
 # 상세 실행 방법은 각 폴더의 README 참조
@@ -98,7 +98,7 @@ cd OpenVINO-turtleNeck
 ## 📁 프로젝트 구조
 
 ```
-OpenVINO-turtleNeck/
+OpenVINO-miniPrj/
 ├── README.md
 └── model-test/
     ├── jh/          # 신지혜 - 거북목 판별
