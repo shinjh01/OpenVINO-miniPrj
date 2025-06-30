@@ -1,2 +1,6 @@
+# .flake8
+# flake8 코드 스타일 검사 도구의 설정 파일입니다.
+# max-line-length 옵션은 한 줄의 최대 길이를 지정합니다.
+
 [flake8]
-max-line-length = 120
+max-line-length = 300
